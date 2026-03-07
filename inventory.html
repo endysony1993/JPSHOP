@@ -850,7 +850,7 @@ Mở file bằng Live Server hoặc double click đều được. -->
 
     async function loadProducts(){
       try {
-        const res = await fetch("../../public/data/products.json");
+		const res = await fetch("public/data/products.json");
         if (!res.ok) throw new Error("Không tải được products.json");
         const data = await res.json();
         // Hỗ trợ: mảng sản phẩm, object đơn, hoặc { products: [...] }
@@ -1213,7 +1213,7 @@ Mở file bằng Live Server hoặc double click đều được. -->
     // Header button: logout
     document.getElementById("btnLogout").addEventListener("click", () => {
 	  localStorage.removeItem("jpshop.currentUser");
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     });
 
     // Initial auth + load
@@ -1223,7 +1223,7 @@ Mở file bằng Live Server hoặc double click đều được. -->
       rateBox.style.display = isAdmin ? "flex" : "none";
     }
     if (!CURRENT_USER){
-      window.location.href = "login.html";
+	  window.location.href = "index.html";
     } else {
       loadProducts();
     }
