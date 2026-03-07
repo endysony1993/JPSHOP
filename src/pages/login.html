@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>JPSHOP</title>
+	<link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body class="app app--auth">
+	<main class="auth">
+		<section class="auth__card">
+			<h1 class="auth__title">JPSHOP</h1>
+			<form id="loginForm" class="auth__form">
+				<div class="field">
+					<label for="username" class="field__label">Username</label>
+					<input
+						type="text"
+						id="username"
+						name="username"
+						class="field__input"
+						autocomplete="username"
+						required
+					/>
+				</div>
+
+				<div class="field">
+					<label for="password" class="field__label">Password</label>
+					<input
+						type="password"
+						id="password"
+						name="password"
+						class="field__input"
+						autocomplete="current-password"
+						required
+					/>
+				</div>
+
+				<div class="field">
+					<span class="field__label">Account type</span>
+					<div class="field__options">
+						<label class="field__option">
+							<input type="radio" name="role" value="admin" checked />
+							<span>Admin</span>
+						</label>
+						<label class="field__option">
+							<input type="radio" name="role" value="guest" />
+							<span>Guest</span>
+						</label>
+					</div>
+				</div>
+
+				<p id="loginError" class="auth__error" aria-live="polite"></p>
+
+				<button type="submit" class="btn btn--primary auth__submit">
+					Sign in
+				</button>
+			</form>
+		</section>
+	</main>
+
+	<script src="../js/auth.js" defer></script>
+</body>
+</html>
+
