@@ -8,6 +8,8 @@ Mở file bằng Live Server hoặc double click đều được. -->
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>TOKYO SHOP</title>
   <style>
+    @import url("https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap");
+
     :root{
       --bg:#021526;
       --line:#e5e7eb;
@@ -22,11 +24,14 @@ Mở file bằng Live Server hoặc double click đều được. -->
       --card:#ffffff;
       --shadow: 0 18px 40px rgba(15,23,42,.18);
       --radius: 10px;
+      --font-ui:"Be Vietnam Pro", "Segoe UI", sans-serif;
     }
     *{box-sizing:border-box}
+    body, button, input, select, textarea{
+      font-family: var(--font-ui);
+    }
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
       background:
        #020617 ;
       color: var(--text);
@@ -121,9 +126,13 @@ Mở file bằng Live Server hoặc double click đều được. -->
       background:linear-gradient(135deg,#ffffff,#e0ecff);
       padding:8px 12px;
       border-radius: 10px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       cursor:pointer;
       font-weight:600;
       color:#1e293b;
+      text-decoration:none;
       box-shadow: 0 8px 20px rgba(148,163,184,.35);
       transition: transform .06s ease, box-shadow .12s ease, background .12s ease;
     }
@@ -282,7 +291,6 @@ Mở file bằng Live Server hoặc double click đều được. -->
       cursor:pointer;
       box-shadow: var(--shadow);
       white-space: nowrap;
-      font-family: "  Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .action-btn:hover{
@@ -374,13 +382,16 @@ Mở file bằng Live Server hoặc double click đều được. -->
       text-transform:uppercase;
       color:#9ca3af;
     }
-    .card-top label{
+    .card-top .fav-toggle{
       position:relative;
       display:inline-flex;
       align-items:flex-start;
       gap:8px;
+      width:44px;
+      min-width:44px;
+      flex:0 0 44px;
     }
-    .card-top input[type="checkbox"]{
+    .card-top .fav-toggle input[type="checkbox"]{
       appearance:none;
       -webkit-appearance:none;
       -moz-appearance:none;
@@ -393,16 +404,16 @@ Mở file bằng Live Server hoặc double click đều được. -->
       cursor:pointer;
       transition: border-color .12s ease, box-shadow .12s ease, background .12s ease, transform .06s ease;
     }
-    .card-top input[type="checkbox"]:hover{
+    .card-top .fav-toggle input[type="checkbox"]:hover{
       transform: translateY(-1px);
       border-color:#cbd5f5;
     }
-    .card-top input[type="checkbox"]:checked{
+    .card-top .fav-toggle input[type="checkbox"]:checked{
       border-color:#b91c1c;
       background: linear-gradient(135deg,#fee2e2,#fecaca);
       box-shadow: 0 0 0 1px #b91c1c55;
     }
-    .card-top label::after{
+    .card-top .fav-toggle::after{
       content:"";
       position:absolute;
       left:26px;
@@ -479,6 +490,26 @@ Mở file bằng Live Server hoặc double click đều được. -->
       font-weight:700;
       margin-right: 4px;
     }
+    .card-actions{
+      display:flex;
+      justify-content:flex-end;
+      margin-top:8px;
+    }
+    .card-cart-btn{
+      width:100%;
+      padding:8px 12px;
+      border-radius:10px;
+      border:1px solid #bfdbfe;
+      background:linear-gradient(135deg,#eff6ff,#dbeafe);
+      color:#1e3a8a;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 8px 18px rgba(59,130,246,.18);
+    }
+    .card-cart-btn:hover{
+      filter:brightness(1.02);
+      transform:translateY(-1px);
+    }
 
     /* Detail popup */
     .detail-panel{
@@ -508,6 +539,13 @@ Mở file bằng Live Server hoặc double click đều được. -->
       justify-content:space-between;
       gap:12px;
       margin-bottom: 12px;
+    }
+    .detail-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
     }
     .detail-label{
       font-size: 12px;
@@ -641,6 +679,9 @@ Mở file bằng Live Server hoặc double click đều được. -->
         margin: 16px auto 32px;
         padding: 16px 12px 24px;
       }
+      .rate-box{
+        display:none !important;
+      }
       .topbar{
         padding: 10px 6px 6px;
       }
@@ -656,6 +697,9 @@ Mở file bằng Live Server hoặc double click đều được. -->
       .rate-input{
         width: 52px;
       }
+      .detail-actions{
+        width:100%;
+      }
     }
   </style>
 </head>
@@ -665,7 +709,7 @@ Mở file bằng Live Server hoặc double click đều được. -->
     <!-- Header -->
     <div class="topbar">
       <div class="rate-box">
-        <div class="rate-label">Tỷ giá ¥ → ₫</div>
+        <div class="rate-label">Tỷ giá ¥ → VND</div>
         <div class="rate-pill">
           <span></span>
           <input id="rateInput" class="rate-input" type="number" min="1" step="1" value="170" />
@@ -674,6 +718,8 @@ Mở file bằng Live Server hoặc double click đều được. -->
       </div>
       <div class="title">TOKYO SHOP</div>
       <div class="topbar-actions">
+        <a class="ghost-btn" id="cartLink" href="cart.html">Giỏ hàng (0)</a>
+        <a class="ghost-btn" href="favourite.html">Yêu thích</a>
         <button class="ghost-btn" id="btnLogout">Đăng xuất</button>
       </div>
     </div>
@@ -724,7 +770,7 @@ Mở file bằng Live Server hoặc double click đều được. -->
                   <option value="Butterfly">Butterfly</option>
                   <option value="Andro">Andro</option>
                   <option value="JUIC">JUIC</option>
-                  <option value="Other">Khác</option>
+                  <option value="Yasaka">Yasaka</option>
                 </select>
                 <span class="pill-select__arrow">▾</span>
               </div>
@@ -783,7 +829,11 @@ Mở file bằng Live Server hoặc double click đều được. -->
             <div class="detail-label">Chi tiết sản phẩm</div>
             <div class="detail-name" id="detailName"></div>
           </div>
-          <button class="ghost-btn" id="btnCloseDetail">Đóng chi tiết</button>
+          <div class="detail-actions">
+            <button class="ghost-btn" id="btnAddToCart" type="button">Thêm vào giỏ</button>
+            <button class="ghost-btn" id="btnToggleFavourite" type="button">Lưu yêu thích</button>
+            <button class="ghost-btn" id="btnCloseDetail">Đóng chi tiết</button>
+          </div>
         </div>
         <div class="detail-main">
           <div>
@@ -800,13 +850,17 @@ Mở file bằng Live Server hoặc double click đều được. -->
     </div>
   </div>
 
+  <script src="src/js/cart-store.js"></script>
   <script>
     // ====== Auth & Data ======
     let CURRENT_USER = null;
     let PRODUCTS = [];
     let FILTERED_ITEMS = [];
     let CURRENT_PAGE = 1;
+    let ACTIVE_DETAIL_CODE = "";
     const PAGE_SIZE = 30;
+    const FAVOURITES_KEY = "favourites";
+    const REQUESTED_PRODUCT_CODE = getRequestedProductCode();
 
     // ====== Elements ======
     const grid = document.getElementById("grid");
@@ -817,8 +871,11 @@ Mở file bằng Live Server hoặc double click đều được. -->
     const detailTable = document.getElementById("detailTable");
     const detailThumbs = document.getElementById("detailThumbs");
     const btnCloseDetail = document.getElementById("btnCloseDetail");
+    const btnAddToCart = document.getElementById("btnAddToCart");
+    const btnToggleFavourite = document.getElementById("btnToggleFavourite");
     const detailPrev = document.getElementById("detailPrev");
     const detailNext = document.getElementById("detailNext");
+    const cartLink = document.getElementById("cartLink");
 
     const fCode = document.getElementById("fCode");
     const fName = document.getElementById("fName");
@@ -836,7 +893,209 @@ Mở file bằng Live Server hoặc double click đều được. -->
     const formatYen = (n) => "¥ " + Number(n).toLocaleString("ja-JP");
     const priceAfterTax = (base) => Math.round(Number(base) * (1 + TAX_RATE));
     const priceToVND = (base) => Math.round(Number(base) * JPY_RATE);
-    const formatVND = (n) => Number(n).toLocaleString("vi-VN") + " ₫";
+    const formatVND = (n) => Number(n).toLocaleString("vi-VN") + " VND";
+
+    function normaliseCode(code){
+      return String(code || "").trim().toUpperCase();
+    }
+
+    function getRequestedProductCode(){
+      try {
+        const params = new URLSearchParams(window.location.search);
+        return normaliseCode(params.get("product"));
+      } catch {
+        return "";
+      }
+    }
+
+    function readFavourites(){
+      try {
+        const raw = localStorage.getItem(FAVOURITES_KEY);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function writeFavourites(items){
+      localStorage.setItem(FAVOURITES_KEY, JSON.stringify(items));
+    }
+
+    function buildProductUrl(code){
+      return `inventory.html?product=${encodeURIComponent(normaliseCode(code))}`;
+    }
+
+    function resolveRuntimePath(path){
+      if (!path) return "";
+      if (/^(https?:|data:|blob:)/i.test(path)) return path;
+
+      const isFileProtocol = window.location.protocol === "file:";
+
+      if (path.startsWith("/public/")){
+        return isFileProtocol ? `.${path}` : path;
+      }
+
+      if (path.startsWith("/assets/")){
+        return isFileProtocol ? `./public${path}` : `/public${path}`;
+      }
+
+      if (path.startsWith("/")){
+        return isFileProtocol ? `.${path}` : path;
+      }
+
+      return path;
+    }
+
+    function buildFavouriteProduct(product){
+      if (!product) return null;
+      const code = normaliseCode(product.code);
+      if (!code) return null;
+      return {
+        code,
+        name: product.name || code,
+        image: product.image || "",
+        url: buildProductUrl(code)
+      };
+    }
+
+    function buildCartProduct(product){
+      if (!product) return null;
+      const code = normaliseCode(product.code);
+      if (!code) return null;
+      return {
+        code,
+        name: product.name || code,
+        price: priceToVND(priceAfterTax(product.price)),
+        image: product.image || ""
+      };
+    }
+
+    function updateCartLink(){
+      if (!cartLink || !window.CartStore) return;
+      const totals = window.CartStore.calculateTotal(window.CartStore.getCart());
+      cartLink.textContent = `Giỏ hàng (${totals.totalItems})`;
+    }
+
+    function handleAddToCart(code){
+      if (!window.CartStore || typeof window.CartStore.addToCart !== "function") return;
+      const targetCode = normaliseCode(code);
+      const product = PRODUCTS.find(item => normaliseCode(item.code) === targetCode);
+      if (!product) return;
+      const cartProduct = buildCartProduct(product);
+      if (!cartProduct) return;
+      window.CartStore.addToCart(cartProduct);
+      updateCartLink();
+    }
+
+    function isFavourite(code){
+      const targetCode = normaliseCode(code);
+      return readFavourites().some(item => normaliseCode(item.code) === targetCode);
+    }
+
+    function addToFavourite(product){
+      const nextItem = buildFavouriteProduct(product);
+      if (!nextItem) return false;
+      const favourites = readFavourites();
+      if (favourites.some(item => normaliseCode(item.code) === nextItem.code)){
+        return false;
+      }
+      favourites.push(nextItem);
+      writeFavourites(favourites);
+      return true;
+    }
+
+    function removeFavourite(code){
+      const targetCode = normaliseCode(code);
+      const nextItems = readFavourites().filter(item => normaliseCode(item.code) !== targetCode);
+      writeFavourites(nextItems);
+      return true;
+    }
+
+    function setFavouriteButtonState(button, active){
+      if (!button) return;
+      const input = button.querySelector("input[type='checkbox']");
+      if (input){
+        input.checked = active;
+      }
+      button.setAttribute("title", active ? "Remove from favourites" : "Add to favourites");
+    }
+
+    function syncFavouriteUI(){
+      document.querySelectorAll("[data-favourite-toggle]").forEach(button => {
+        const code = button.getAttribute("data-code");
+        setFavouriteButtonState(button, isFavourite(code));
+      });
+
+      if (btnToggleFavourite){
+        const active = ACTIVE_DETAIL_CODE ? isFavourite(ACTIVE_DETAIL_CODE) : false;
+        btnToggleFavourite.textContent = active ? "Bỏ yêu thích" : "Lưu yêu thích";
+        btnToggleFavourite.setAttribute("aria-pressed", active ? "true" : "false");
+      }
+    }
+
+    function toggleFavourite(code){
+      const targetCode = normaliseCode(code);
+      if (!targetCode) return;
+
+      if (isFavourite(targetCode)){
+        removeFavourite(targetCode);
+      } else {
+        const product = PRODUCTS.find(item => normaliseCode(item.code) === targetCode);
+        if (!product) return;
+        addToFavourite(product);
+      }
+
+      syncFavouriteUI();
+    }
+
+    function updateProductQuery(code){
+      if (!window.history || typeof window.history.replaceState !== "function") return;
+      const url = new URL(window.location.href);
+      if (code){
+        url.searchParams.set("product", normaliseCode(code));
+      } else {
+        url.searchParams.delete("product");
+      }
+      window.history.replaceState({}, "", url);
+    }
+
+    function bindCardEvents(){
+      document.querySelectorAll(".card").forEach(card => {
+        const code = card.getAttribute("data-code");
+        card.addEventListener("click", () => {
+          if (!code) return;
+          showDetail(code);
+        });
+      });
+
+      document.querySelectorAll("[data-favourite-toggle]").forEach(button => {
+        button.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const code = button.getAttribute("data-code");
+          toggleFavourite(code);
+        });
+      });
+
+      document.querySelectorAll("[data-add-cart]").forEach(button => {
+        button.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const code = button.getAttribute("data-add-cart");
+          handleAddToCart(code);
+        });
+      });
+
+      syncFavouriteUI();
+      updateCartLink();
+    }
+
+    function openRequestedProduct(){
+      if (!REQUESTED_PRODUCT_CODE) return;
+      const product = PRODUCTS.find(item => normaliseCode(item.code) === REQUESTED_PRODUCT_CODE);
+      if (product){
+        showDetail(product.code);
+      }
+    }
 
     function getCurrentUser(){
       try {
@@ -850,7 +1109,7 @@ Mở file bằng Live Server hoặc double click đều được. -->
 
     async function loadProducts(){
       try {
-		const res = await fetch("/public/data/products.json");
+		const res = await fetch(resolveRuntimePath("/public/data/products.json"));
         if (!res.ok) throw new Error("Không tải được products.json");
         const data = await res.json();
         // Hỗ trợ: mảng sản phẩm, object đơn, hoặc { products: [...] }
@@ -866,6 +1125,7 @@ Mở file bằng Live Server hoặc double click đều được. -->
           PRODUCTS = [];
         }
         applyFilters();
+        openRequestedProduct();
       } catch (err){
         console.error(err);
         PRODUCTS = [];
@@ -903,6 +1163,7 @@ Mở file bằng Live Server hoặc double click đều được. -->
         const priceBefore = p.price;
         const priceAfter = priceAfterTax(priceBefore); // +10% thuế
         const vndPrice = priceToVND(priceAfter);
+        const favouriteActive = isFavourite(p.code);
 
         const codeHtml = isAdmin ? p.code : "";
         const priceHtml = isAdmin
@@ -915,13 +1176,13 @@ Mở file bằng Live Server hoặc double click đều được. -->
         return `
         <div class="card" data-code="${p.code}">
           <div class="card-top">
-            <label style="display:flex;align-items:center;gap:8px;color:#6b7280;font-weight:800;font-size:12px">
-              <input type="checkbox" />
-            </label>
             <div class="code">${codeHtml}</div>
+            <label class="fav-toggle" data-favourite-toggle data-code="${p.code}" title="${favouriteActive ? "Remove from favourites" : "Add to favourites"}">
+              <input type="checkbox" ${favouriteActive ? "checked" : ""} aria-label="Toggle favourite for ${p.name}" />
+            </label>
           </div>
           <div class="thumb">
-            <img src="${p.image}" alt="${p.name}" loading="lazy" />
+            <img src="${resolveRuntimePath(p.image)}" alt="${p.name}" loading="lazy" />
           </div>
           <div class="card-body">
             <div class="name">${p.brand || p.name}</div>
@@ -930,20 +1191,15 @@ Mở file bằng Live Server hoặc double click đều được. -->
               <div class="price">${priceHtml}</div>
               ${vndHtml}
             </div>
+            <div class="card-actions">
+              <button class="card-cart-btn" type="button" data-add-cart="${p.code}">Thêm vào giỏ</button>
+            </div>
           </div>
         </div>
       `;
       }).join("");
 
-      // Gán sự kiện mở chi tiết cho từng card
-      document.querySelectorAll(".card").forEach(card => {
-        const code = card.getAttribute("data-code");
-        card.addEventListener("click", (e) => {
-          if (e.target.tagName === "INPUT") return; // bỏ qua click vào checkbox
-          if (!code) return;
-          showDetail(code);
-        });
-      });
+      bindCardEvents();
     }
 
     function renderPagination(totalPages){
@@ -1011,12 +1267,13 @@ Mở file bằng Live Server hoặc double click đều được. -->
 
     function updateDetailImage(){
       if (!detailImage || !currentImages.length) return;
-      detailImage.src = currentImages[currentImageIndex];
+      detailImage.src = resolveRuntimePath(currentImages[currentImageIndex]);
     }
 
     function showDetail(code){
       const product = PRODUCTS.find(p => p.code === code);
       if (!product || !detailPanel) return;
+      ACTIVE_DETAIL_CODE = normaliseCode(code);
 
       detailName.textContent = product.name || product.code;
       currentImages = Array.isArray(product.images) && product.images.length
@@ -1035,7 +1292,7 @@ Mở file bằng Live Server hoặc double click đều được. -->
         } else {
           detailThumbs.innerHTML = currentImages.map((src, idx) => `
             <button class="detail-thumb ${idx === currentImageIndex ? "detail-thumb--active" : ""}" data-idx="${idx}">
-              <img src="${src}" alt="thumb ${idx + 1}">
+              <img src="${resolveRuntimePath(src)}" alt="thumb ${idx + 1}">
             </button>
           `).join("");
 
@@ -1122,6 +1379,9 @@ Mở file bằng Live Server hoặc double click đều được. -->
       `).join("");
 
       detailPanel.style.display = "flex";
+      updateProductQuery(code);
+      syncFavouriteUI();
+      updateCartLink();
     }
 
     // ====== Accordion behavior ======
@@ -1160,13 +1420,33 @@ Mở file bằng Live Server hoặc double click đều được. -->
     // Đóng popup chi tiết
     if (btnCloseDetail && detailPanel){
       btnCloseDetail.addEventListener("click", () => {
+        ACTIVE_DETAIL_CODE = "";
         detailPanel.style.display = "none";
+        updateProductQuery("");
+        syncFavouriteUI();
       });
       // bấm ra nền tối cũng đóng
       detailPanel.addEventListener("click", (e) => {
         if (e.target === detailPanel){
+          ACTIVE_DETAIL_CODE = "";
           detailPanel.style.display = "none";
+          updateProductQuery("");
+          syncFavouriteUI();
         }
+      });
+    }
+
+    if (btnToggleFavourite){
+      btnToggleFavourite.addEventListener("click", () => {
+        if (!ACTIVE_DETAIL_CODE) return;
+        toggleFavourite(ACTIVE_DETAIL_CODE);
+      });
+    }
+
+    if (btnAddToCart){
+      btnAddToCart.addEventListener("click", () => {
+        if (!ACTIVE_DETAIL_CODE) return;
+        handleAddToCart(ACTIVE_DETAIL_CODE);
       });
     }
 
@@ -1225,6 +1505,13 @@ Mở file bằng Live Server hoặc double click đều được. -->
     if (!CURRENT_USER){
 	  window.location.href = "index.html";
     } else {
+      updateCartLink();
+      window.addEventListener("cart:updated", updateCartLink);
+      window.addEventListener("storage", (event) => {
+        if (event.key === "cart"){
+          updateCartLink();
+        }
+      });
       loadProducts();
     }
   </script>

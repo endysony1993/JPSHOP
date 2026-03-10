@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
 				return;
 			}
 		} else if (isGuest) {
-			const validGuest = username === "guest01" && password === "5678123";
+			const validGuest = username === "guest01" && password === "555123";
 			if (!validGuest) {
 				errorEl.textContent = "Invalid guest credentials.";
 				return;
