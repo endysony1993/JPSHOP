@@ -941,10 +941,11 @@ Mở file bằng Live Server hoặc double click đều được. -->
       }
 
       if (path.startsWith("/")){
-        return isFileProtocol ? `.${path}` : path;
+        const nextPath = isFileProtocol ? `.${path}` : path;
+        return nextPath.replace(/\+/g, "%2B");
       }
 
-      return path;
+      return path.replace(/\+/g, "%2B");
     }
 
     function buildFavouriteProduct(product){

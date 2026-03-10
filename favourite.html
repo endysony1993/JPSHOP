@@ -607,10 +607,11 @@
 			}
 
 			if (path.startsWith("/")) {
-				return isFileProtocol ? `.${path}` : path;
+				const nextPath = isFileProtocol ? `.${path}` : path;
+				return nextPath.replace(/\+/g, "%2B");
 			}
 
-			return path;
+			return path.replace(/\+/g, "%2B");
 		}
 
 		async function loadProductMap() {
